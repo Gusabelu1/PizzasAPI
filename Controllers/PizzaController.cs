@@ -15,33 +15,24 @@ namespace Pizzas.API.Controllers
     {
         public IActionResult GetAll()
         {
-            /* var rng = new Random();
-            return Ok(Enumerable.Range(1, 5).Select(index => new Pizza
-            {
-                Descripcion = "Con salsa de tomate y queso",
-                Id = 1,
-                Importe = 300,
-                LibreGluten = false,
-                Nombre = "Muzza Individual"
-            })
-            .ToArray()); */
             List<Pizza> Pizzas = PizzaServices.GetAll();
-            return null;
+            return Ok(Pizzas);
         }
         
-        /* [HttpGet("{id}")]
+        [HttpGet("{id}")]
         public Pizza GetById(int id){
             Pizza PBuscada = PizzaServices.ConsultaPizzas(id);
             return PBuscada;
         }
 
+        
         [HttpPost]
         public IActionResult Create(Pizza pizza) {
             PizzaServices.AgregarPizza(pizza);
             return Ok();
-            
         }
 
+        /*
         [HttpPut("{id}")]
         public IActionResult Update(int id, Pizza pizza) {
             PizzaServices.ModificarPizza(id, pizza);

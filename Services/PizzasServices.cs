@@ -25,24 +25,32 @@ namespace Pizzas.API.Services {
             return returnList;
         } 
 
-        /*
+        
         public static Pizza ConsultaPizzas (int IdPizza)
         {
-               Pizza PizzaBuscada = null;
-               string sql = "SELECT * FROM Pizzas WHERE Id = @p";
-               using(SqlConnection db =  new SqlConnection(BD.GetConnection())){
-                   PizzaBuscada = db.QueryFirstOrDefault<Pizza>(sql, new {p = IdPizza});
-               }
-               return PizzaBuscada;
+            string sqlQuery;
+            Pizza PizzaBuscada;
+
+            using (SqlConnection db = BD.GetConnection()) {
+                sqlQuery = "SELECT *";
+                sqlQuery += "FROM Pizzas WHERE Id = @pId";
+                PizzaBuscada = db.QueryFirstOrDefault<Pizza>(sqlQuery, new {pId = IdPizza});
             }
 
+            return PizzaBuscada;
+        }
+
             public static void AgregarPizza (Pizza Pizza){
-                string sql = "INSERT INTO Pizzas( Id, Nombre, LibreGluten, Importe, Descripcion) VALUES ( @pId, @pNombre, @pLibreGluten, @pImporte, @pDescripcion)";
-                using(SqlConnection db =  new SqlConnection(_connectionString)){
-                    db.Execute(sql, new{ pId = Pizza.Id, pNombre = Pizza.Nombre, pLibreGluten = Pizza.LibreGluten, pImporte = Pizza.Importe, pDescripcion = Pizza.Descripcion});
+                string sqlQuery;
+
+                using (SqlConnection db = BD.GetConnection()) {
+                    sqlQuery = "INSERT";
+                    sqlQuery += "INTO Pizzas( Id, Nombre, LibreGluten, Importe, Descripcion) VALUES ( @pId, @pNombre, @pLibreGluten, @pImporte, @pDescripcion)";
+                    db.Execute(sqlQuery, new{ pId = Pizza.Id, pNombre = Pizza.Nombre, pLibreGluten = Pizza.LibreGluten, pImporte = Pizza.Importe, pDescripcion = Pizza.Descripcion});
                 }
             }
-            public static Pizza ModificarPizza (int id, Pizza Pizza){
+
+            /* public static Pizza ModificarPizza (int id, Pizza Pizza){
                string sql = "UPDATE Pizzas SET (Nombre = @pNombre, LibreGluten = @pLibreGluten, Importe = @pImporte, Descripcion = @pDescripcion) WHERE id = @pId ";
                using(SqlConnection db =  new SqlConnection(_connectionString)){
                   db.QueryFirstOrDefault(sql, new {pId = Pizza.Id, pNombre = Pizza.Nombre, pLibreGluten = Pizza.LibreGluten, pImporte = Pizza.Importe, pDescripcion = Pizza.Descripcion});

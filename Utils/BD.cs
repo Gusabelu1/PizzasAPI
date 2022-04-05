@@ -10,12 +10,14 @@ namespace Pizzas.API.Utils
     {
         public static SqlConnection GetConnection() {
             SqlConnection db;
-            string connectionString;
+            string connectionString = @"server=A-AMI-12;DataBase=DAI-Pizzas;Trusted_Connection=True;";
 
-            connectionString = 
+            /* connectionString = 
                 ConfigurationHelper.GetConfiguration()
-                .GetValue<string>("DatabaseSettings:ConnectionString");
+                .GetValue<string>("DatabaseSettings:ConnectionString"); */
             db = new SqlConnection(connectionString);
+
+            Console.WriteLine(connectionString);
             return db;
         }
     }
