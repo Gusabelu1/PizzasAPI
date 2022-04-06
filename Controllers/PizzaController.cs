@@ -32,7 +32,7 @@ namespace Pizzas.API.Controllers
             return Ok();
         }
 
-        /*
+        
         [HttpPut("{id}")]
         public IActionResult Update(int id, Pizza pizza) {
             PizzaServices.ModificarPizza(id, pizza);
@@ -42,8 +42,8 @@ namespace Pizzas.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteById(int id) {
             int Registro = PizzaServices.EliminarPizza(id);
-            return Ok();
-        } */
+            return Ok(Registro);
+        }
     }
 }
 

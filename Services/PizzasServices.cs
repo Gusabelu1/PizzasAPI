@@ -16,9 +16,10 @@ namespace Pizzas.API.Services {
             List<Pizza> returnList;
 
             returnList = new List<Pizza>();
+
+            sqlQuery = "SELECT * ";
+            sqlQuery += "FROM Pizzas";
             using (SqlConnection db = BD.GetConnection()) {
-                sqlQuery = "SELECT *";
-                sqlQuery += "FROM Pizzas";
                 returnList = db.Query<Pizza>(sqlQuery).ToList();
             }
 
@@ -31,9 +32,9 @@ namespace Pizzas.API.Services {
             string sqlQuery;
             Pizza PizzaBuscada;
 
+            sqlQuery = "SELECT * "; 
+            sqlQuery += "FROM Pizzas WHERE Id = @pId";
             using (SqlConnection db = BD.GetConnection()) {
-                sqlQuery = "SELECT *";
-                sqlQuery += "FROM Pizzas WHERE Id = @pId";
                 PizzaBuscada = db.QueryFirstOrDefault<Pizza>(sqlQuery, new {pId = IdPizza});
             }
 
@@ -43,28 +44,33 @@ namespace Pizzas.API.Services {
             public static void AgregarPizza (Pizza Pizza){
                 string sqlQuery;
 
+                sqlQuery = "INSERT ";
+                sqlQuery += "INTO Pizzas( Nombre, LibreGluten, Importe, Descripcion) VALUES ( @pNombre, @pLibreGluten, @pImporte, @pDescripcion)";
                 using (SqlConnection db = BD.GetConnection()) {
-                    sqlQuery = "INSERT";
-                    sqlQuery += "INTO Pizzas( Id, Nombre, LibreGluten, Importe, Descripcion) VALUES ( @pId, @pNombre, @pLibreGluten, @pImporte, @pDescripcion)";
-                    db.Execute(sqlQuery, new{ pId = Pizza.Id, pNombre = Pizza.Nombre, pLibreGluten = Pizza.LibreGluten, pImporte = Pizza.Importe, pDescripcion = Pizza.Descripcion});
+                    db.Execute(sqlQuery, new{ pNombre = Pizza.Nombre, pLibreGluten = Pizza.LibreGluten, pImporte = Pizza.Importe, pDescripcion = Pizza.Descripcion});
                 }
             }
 
-            /* public static Pizza ModificarPizza (int id, Pizza Pizza){
-               string sql = "UPDATE Pizzas SET (Nombre = @pNombre, LibreGluten = @pLibreGluten, Importe = @pImporte, Descripcion = @pDescripcion) WHERE id = @pId ";
-               using(SqlConnection db =  new SqlConnection(_connectionString)){
-                  db.QueryFirstOrDefault(sql, new {pId = Pizza.Id, pNombre = Pizza.Nombre, pLibreGluten = Pizza.LibreGluten, pImporte = Pizza.Importe, pDescripcion = Pizza.Descripcion});
+            public static void ModificarPizza (int id, Pizza Pizza){
+               string sqlQuery;
+
+               sqlQuery = "UPDATE ";
+               sqlQuery += "Pizzas SET Nombre = @pNombre, LibreGluten = @pLibreGluten, Importe = @pImporte, Descripcion = @pDescripcion WHERE Id = @pId ";
+               using(SqlConnection db = BD.GetConnection()) {
+                  db.Execute(sqlQuery, new{ pId = id, pNombre = Pizza.Nombre, pLibreGluten = Pizza.LibreGluten, pImporte = Pizza.Importe, pDescripcion = Pizza.Descripcion});
                }
-               return Pizza;
             }
 
-             public static int EliminarPizza (int Id){
+            public static int EliminarPizza (int id){
+               string sqlQuery;
                int Registro = 0;
-               string sql = "DELETE * FROM Pizza WHERE Id = @p ";
-               using(SqlConnection db =  new SqlConnection(_connectionString)){
-                   Registro = db.Execute(sql, new {p = Id});
+
+               sqlQuery = "DELETE ";
+               sqlQuery += "FROM Pizzas WHERE Id = @pId";               
+               using(SqlConnection db =  BD.GetConnection()) {
+                   Registro = db.Execute(sqlQuery, new {pId = id});
                }
                return Registro;
-            } */
+            }
         }
 }
