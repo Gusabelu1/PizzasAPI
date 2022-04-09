@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Pizzas.API.Models;
 using Pizzas.API.Services;
 using Usuarios.API.Models;
+using Usuarios.API.Services;
 
 namespace Usuarios.API.Controllers 
 {
@@ -19,11 +20,19 @@ namespace Usuarios.API.Controllers
         [Route("login")]
         public IActionResult Login(Usuario usuario) {
             bool UserFound = false;
+            string entity = null;
 
-            if(UserFound){
+            usuario = UsuarioServices.Login(usuario.UserName, usuario.Password);
+            
+            if (usuario != null) {
+                UserFound = true;
+                entity = usuario.Token;
+            }
+
+            if (UserFound){
                 return Ok(entity);
             } else {
-                return NotFound();
+                return NotFound("No se encontro el usuario ingresado");
             }
         }
     }

@@ -8,6 +8,7 @@ using Pizzas.API.Models;
 using Dapper;
 using System.Data.SqlClient;
 using Pizzas.API.Utils;
+using Pizzas.API.Helpers;
 
 namespace Pizzas.API.Services {
     public class PizzaServices {
